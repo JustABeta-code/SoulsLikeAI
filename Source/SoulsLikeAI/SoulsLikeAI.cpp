@@ -6,3 +6,4 @@
 IMPLEMENT_PRIMARY_GAME_MODULE( FDefaultGameModuleImpl, SoulsLikeAI, "SoulsLikeAI" );
 
 DEFINE_LOG_CATEGORY(LogSoulsLikeAI)
+DEFINE_LOG_CATEGORY(LogEnemyAI)
