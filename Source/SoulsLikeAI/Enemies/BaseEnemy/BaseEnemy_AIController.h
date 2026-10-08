@@ -15,6 +15,7 @@ class SOULSLIKEAI_API ABaseEnemy_AIController : public AAIController
 {
 	GENERATED_BODY()
 	
+public:
 	ABaseEnemy_AIController();
 	
 protected:
