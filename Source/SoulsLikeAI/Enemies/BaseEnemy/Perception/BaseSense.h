@@ -12,7 +12,6 @@ class UAISenseConfig;
  * Base of every entry in an enemy's Senses list. Each child wraps one engine sense.
  * Entries live in a data asset shared by every enemy that uses it, so they are read-only at runtime.
  */
-
 UCLASS(Abstract, EditInlineNew)
 class SOULSLIKEAI_API UBaseSense : public UObject
 {
@@ -24,7 +23,7 @@ public:
 	
 protected:
 	/** Creates the matching engine config and fills the fields only this sense has. */
-	virtual UAISenseConfig* NewSenseConfig(UObject& Outer) const PURE_VIRTUAL(UBaseEnemy_BaseSense::NewSenseConfig, return nullptr;);
+	virtual UAISenseConfig* NewSenseConfig(UObject& Outer) const PURE_VIRTUAL(UBaseSense::NewSenseConfig, return nullptr;);
 	
 	/** Seconds before a stimulus from this sense expires. 0 means never. */
 	UPROPERTY(EditAnywhere, Category = "Sense", meta = (ClampMin = "0.0", UIMin = "0.0", Units = "Seconds"))
