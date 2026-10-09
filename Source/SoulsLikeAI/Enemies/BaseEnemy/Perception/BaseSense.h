@@ -4,18 +4,20 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Object.h"
-#include "BaseEnemy_BaseSense.generated.h"
+#include "BaseSense.generated.h"
 
 class UAISenseConfig;
 
 /**
- * 
+ * Base of every entry in an enemy's Senses list. Each child wraps one engine sense.
+ * Entries live in a data asset shared by every enemy that uses it, so they are read-only at runtime.
  */
+
 UCLASS(Abstract, EditInlineNew)
-class SOULSLIKEAI_API UBaseEnemy_BaseSense : public UObject
+class SOULSLIKEAI_API UBaseSense : public UObject
 {
 	GENERATED_BODY()
-	
+		
 public:
 	/** Creates the engine config for this sense, owned by Outer and filled with this entry's values. */
 	UAISenseConfig* CreateSenseConfig(UObject& Outer) const;
