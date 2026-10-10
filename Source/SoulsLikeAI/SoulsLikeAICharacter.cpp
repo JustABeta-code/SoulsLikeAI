@@ -10,6 +10,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
+#include "SoulsLikeAITeams.h"
 #include "SoulsLikeAI.h"
 
 ASoulsLikeAICharacter::ASoulsLikeAICharacter()
@@ -130,4 +131,9 @@ void ASoulsLikeAICharacter::DoJumpEnd()
 {
 	// signal the character to stop jumping
 	StopJumping();
+}
+
+FGenericTeamId ASoulsLikeAICharacter::GetGenericTeamId() const
+{
+	return SoulsLikeTeams::Player;
 }
