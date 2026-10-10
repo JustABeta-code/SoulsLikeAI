@@ -5,7 +5,6 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
-#include "GameFramework/Character.h"
 #include "GenericTeamAgentInterface.h"
 #include "SoulsLikeAICharacter.generated.h"
 
@@ -95,6 +94,6 @@ public:
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 	
+	/** The player's perception team, so enemy senses that detect only enemies report the player. */
 	virtual FGenericTeamId GetGenericTeamId() const override;
 };
-

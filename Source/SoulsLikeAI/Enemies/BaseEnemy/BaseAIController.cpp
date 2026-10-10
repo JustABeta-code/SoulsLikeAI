@@ -4,12 +4,15 @@
 #include "Enemies/BaseEnemy/BaseAIController.h"
 
 #include "SoulsLikeAI.h"
+#include "SoulsLikeAITeams.h"
 #include "Perception/AIPerceptionComponent.h"
 
 ABaseAIController::ABaseAIController(){
+	// Set before perception registers: the listener copies the team only then.
+	SetGenericTeamId(SoulsLikeTeams::Enemies);
+	
 	UAIPerceptionComponent* Perception = CreateDefaultSubobject<UAIPerceptionComponent>("AIPerception");
 	SetPerceptionComponent(*Perception);
-	
 }
 
 void ABaseAIController::OnPossess(class APawn* InPawn)
