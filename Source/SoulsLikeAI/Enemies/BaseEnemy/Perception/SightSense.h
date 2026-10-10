@@ -29,6 +29,6 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Sense", meta = (ClampMin = "0.0", UIMin = "0.0", Units = "Centimeters"))
 	float LoseSightMargin = 500.f;
 	
-	UPROPERTY(EditAnywhere, Category = "Sense", meta = (ClampMin = "0.0", UIMin = "0.0", ClampMax = "360.0", UIMax = "360.0", Units = "Degrees"))
-	float PeripheralVisionAngle = 120.f;
+	UPROPERTY(EditAnywhere, Category = "Sense", meta = (ClampMin = "0.0", UIMin = "0.0", ClampMax = "180.0", UIMax = "180.0", Units = "Degrees"))
+	float PeripheralVisionHalfAngle = 60.f;
 };
