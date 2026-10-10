@@ -19,10 +19,10 @@ class SOULSLIKEAI_API UBaseEnemyData : public UPrimaryDataAsset
 	
 public:
 	/** This enemy's sense entries. May contain empty entries. */
-	const TArray<TObjectPtr<UBaseSense>>& GetSenses() const {return Senses;};
+	const TArray<TObjectPtr<UBaseSense>>& GetSenses() const {return Senses;}
 	
 protected:
 	/** Senses this enemy perceives with, one entry per sense. Each new entry starts with that sense's defaults. */
-	UPROPERTY(EditDefaultsOnly, Instanced, Category = "Sense", meta = (NoElementDuplicate))
+	UPROPERTY(EditDefaultsOnly, Instanced, Category = "Senses", meta = (NoElementDuplicate))
 	TArray<TObjectPtr<UBaseSense>> Senses;
 };
