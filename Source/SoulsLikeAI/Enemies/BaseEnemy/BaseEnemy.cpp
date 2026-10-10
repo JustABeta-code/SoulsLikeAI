@@ -8,9 +8,6 @@
 // Sets default values
 ABaseEnemy::ABaseEnemy()
 {
-	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
-	
 	// Enemies use our controller by default; a Blueprint can still pick another.
 	AIControllerClass = ABaseAIController::StaticClass();
 }
