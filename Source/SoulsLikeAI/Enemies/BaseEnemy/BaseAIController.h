@@ -5,18 +5,18 @@
 
 #include "CoreMinimal.h"
 #include "AIController.h"
-#include "BaseEnemy_AIController.generated.h"
+#include "BaseAIController.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class SOULSLIKEAI_API ABaseEnemy_AIController : public AAIController
+class SOULSLIKEAI_API ABaseAIController : public AAIController
 {
 	GENERATED_BODY()
 	
 public:
-	ABaseEnemy_AIController();
+	ABaseAIController();
 	
 protected:
 	
