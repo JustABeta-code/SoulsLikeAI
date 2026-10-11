@@ -5,6 +5,7 @@
 
 #include "CoreMinimal.h"
 #include "AIController.h"
+#include "Perception/AIPerceptionComponent.h"
 #include "BaseAIController.generated.h"
 
 /**
@@ -26,4 +27,8 @@ protected:
 private:
 	/** Sets up perception from the possessed enemy's data and registers it. Runs once, for the first pawn. */
 	void SetupPerception();
+	
+	/** Called when perception of a target changes; Target is null if the actor no longer exists. */
+	UFUNCTION()
+	void HandleTargetPerceptionInfoUpdated(const FActorPerceptionUpdateInfo& UpdateInfo);
 };

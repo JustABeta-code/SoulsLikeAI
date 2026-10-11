@@ -5,10 +5,13 @@
 
 #include "SoulsLikeAI.h"
 #include "SoulsLikeAITeams.h"
+
 #include "Perception/AISenseConfig.h"
+#include "Perception/AIPerceptionSystem.h"
+#include "Perception/AIPerceptionComponent.h"
+
 #include "Enemies/BaseEnemy/BaseEnemy.h"
 #include "Enemies/BaseEnemy/BaseEnemyData.h"
-#include "Perception/AIPerceptionComponent.h"
 #include "Enemies/BaseEnemy/Perception/BaseSense.h"
 
 ABaseAIController::ABaseAIController(){
@@ -54,6 +57,7 @@ void ABaseAIController::SetupPerception()
 	}
 	else
 	{
+		// Config classes added so far: ConfigureSense would replace an earlier config of the same class.
 		TSet<const UClass*> ConfigClasses;
 		for (const UBaseSense* Sense : EnemyData->GetSenses())
 		{
@@ -68,7 +72,7 @@ void ABaseAIController::SetupPerception()
 				continue;
 			}
 			
-			bool bAlreadyAdded = false;	
+			bool bAlreadyAdded = false;
 			ConfigClasses.Add(Config->GetClass(), &bAlreadyAdded);
 			if (bAlreadyAdded)
 			{
@@ -80,5 +84,12 @@ void ABaseAIController::SetupPerception()
 		}
 	}
 	
+	Perception->OnTargetPerceptionInfoUpdated.AddDynamic(this, &ABaseAIController::HandleTargetPerceptionInfoUpdated);
 	Perception->RegisterComponent();
+}
+
+void ABaseAIController::HandleTargetPerceptionInfoUpdated(const FActorPerceptionUpdateInfo& UpdateInfo)
+{
+	const FAIStimulus& Stimulus = UpdateInfo.Stimulus;
+	UE_LOG(LogEnemyAI, Verbose, TEXT("%s: %s %s (%s)"), *GetName(), Stimulus.WasSuccessfullySensed() ? TEXT("sensed") : TEXT("lost"), *GetNameSafe(UpdateInfo.Target.Get()), *GetNameSafe(UAIPerceptionSystem::GetSenseClassForStimulus(this, Stimulus).Get()));
 }
