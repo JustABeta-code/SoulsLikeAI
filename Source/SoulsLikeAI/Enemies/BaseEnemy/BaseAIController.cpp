@@ -5,8 +5,11 @@
 
 #include "SoulsLikeAI.h"
 #include "SoulsLikeAITeams.h"
+#include "Perception/AISenseConfig.h"
 #include "Enemies/BaseEnemy/BaseEnemy.h"
+#include "Enemies/BaseEnemy/BaseEnemyData.h"
 #include "Perception/AIPerceptionComponent.h"
+#include "Enemies/BaseEnemy/Perception/BaseSense.h"
 
 ABaseAIController::ABaseAIController(){
 	// Set before perception registers: SetGenericTeamId doesn't notify it, and its listener copies the team only when it registers or updates.
@@ -48,6 +51,33 @@ void ABaseAIController::SetupPerception()
 	if (const UBaseEnemyData* EnemyData = Enemy ? Enemy->GetEnemyData() : nullptr; EnemyData == nullptr)
 	{
 		UE_LOG(LogEnemyAI, Warning, TEXT("%s: %s has no enemy data, so its perception has no senses"), *GetName(), *GetPawn()->GetName());
+	}
+	else
+	{
+		TSet<const UClass*> ConfigClasses;
+		for (const UBaseSense* Sense : EnemyData->GetSenses())
+		{
+			if (Sense == nullptr)
+			{
+				continue;
+			}
+			
+			UAISenseConfig* Config = Sense->CreateSenseConfig(*Perception);
+			if (!ensureMsgf(Config, TEXT("%s created no sense config"), *Sense->GetClass()->GetName()))
+			{
+				continue;
+			}
+			
+			bool bAlreadyAdded = false;	
+			ConfigClasses.Add(Config->GetClass(), &bAlreadyAdded);
+			if (bAlreadyAdded)
+			{
+				UE_LOG(LogEnemyAI, Warning, TEXT("%s: %s has more than one %s entry; only the first is used"), *GetName(), *EnemyData->GetName(), *Sense->GetClass()->GetName());
+				continue;
+			}
+			// Before registration this only stores the config; RegisterComponent then sets up every sense at once.
+			Perception->ConfigureSense(*Config);
+		}
 	}
 	
 	Perception->RegisterComponent();
