@@ -22,4 +22,8 @@ protected:
 	
 	virtual void OnPossess(class APawn* InPawn) override;
 	virtual void OnUnPossess() override;
+	
+private:
+	/** Sets up perception from the possessed enemy's data and registers it. Runs once, for the first pawn. */
+	void SetupPerception();
 };
