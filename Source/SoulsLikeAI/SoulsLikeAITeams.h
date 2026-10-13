@@ -10,6 +10,6 @@
  */
 namespace SoulsLikeTeams
 {
-	constexpr uint8 Player = 0;
-	constexpr uint8 Enemies = 1;
+	constexpr uint8 Player		= 0;
+	constexpr uint8 Enemies		= 1;
 }

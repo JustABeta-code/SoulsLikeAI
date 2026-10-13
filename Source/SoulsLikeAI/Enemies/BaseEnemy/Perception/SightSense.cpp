@@ -17,9 +17,9 @@ UAISenseConfig* USightSense::NewSenseConfig(UObject& Outer) const
 	Config->LoseSightRadius = SightRadius + LoseSightMargin;
 	Config->PeripheralVisionAngleDegrees = PeripheralVisionHalfAngle;
 	
-	Config->DetectionByAffiliation.bDetectEnemies = true;
-	Config->DetectionByAffiliation.bDetectNeutrals = false;
-	Config->DetectionByAffiliation.bDetectFriendlies = false;
+	Config->DetectionByAffiliation.bDetectEnemies		= true;
+	Config->DetectionByAffiliation.bDetectNeutrals		= false;
+	Config->DetectionByAffiliation.bDetectFriendlies	= false;
 	
 	return Config;
 }
