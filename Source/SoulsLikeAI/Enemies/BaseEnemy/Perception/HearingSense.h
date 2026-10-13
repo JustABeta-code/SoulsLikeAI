@@ -16,9 +16,9 @@ public:
 	UHearingSense();
 	
 protected:
-	UAISenseConfig* NewSenseConfig(UObject& Outer)const override;
+	UAISenseConfig* NewSenseConfig(UObject& Outer) const override;
 	
 	/** Distance at which a noise of loudness 1 is heard; a noise's loudness multiplies it. */
-	UPROPERTY(EditAnywhere, Category = "Sense", meta = (Min = "0.0", UIMin = "0.0"))
+	UPROPERTY(EditAnywhere, Category = "Sense", meta = (ClampMin = "0.0", UIMin = "0.0"))
 	float HearingRange = 1000.f;
 };

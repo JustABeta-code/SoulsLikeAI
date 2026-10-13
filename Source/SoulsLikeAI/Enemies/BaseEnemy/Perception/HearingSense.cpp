@@ -2,7 +2,6 @@
 
 
 #include "HearingSense.h"
-#include "Perception/AISenseConfig.h"
 #include "Perception/AISenseConfig_Hearing.h"
 
 UHearingSense::UHearingSense()
@@ -14,7 +13,7 @@ UHearingSense::UHearingSense()
 UAISenseConfig* UHearingSense::NewSenseConfig(UObject& Outer) const
 {
 	UAISenseConfig_Hearing* Config = NewObject<UAISenseConfig_Hearing>(&Outer);
-	Config -> HearingRange = HearingRange;
+	Config->HearingRange = HearingRange;
 	
 	Config->DetectionByAffiliation.bDetectEnemies		= true;
 	Config->DetectionByAffiliation.bDetectNeutrals		= false;
