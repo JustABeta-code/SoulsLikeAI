@@ -3,6 +3,7 @@
 
 #include "BaseEnemy.h"
 #include "BaseAIController.h"
+#include "SoulsLikeAITeams.h"
 
 
 // Sets default values
@@ -10,6 +11,11 @@ ABaseEnemy::ABaseEnemy()
 {
 	// Enemies use our controller by default; a Blueprint can still pick another.
 	AIControllerClass = ABaseAIController::StaticClass();
+}
+
+FGenericTeamId ABaseEnemy::GetGenericTeamId() const
+{
+	return SoulsLikeTeams::Enemies;
 }
 
 // Called when the game starts or when spawned

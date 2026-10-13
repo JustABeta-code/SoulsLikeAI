@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "GenericTeamAgentInterface.h"
 #include "BaseEnemy.generated.h"
 
 class UBaseEnemyData;
@@ -12,7 +13,7 @@ class UBaseEnemyData;
  * Base for every enemy pawn. Holds the data asset the enemy is built from.
  */
 UCLASS(Abstract)
-class SOULSLIKEAI_API ABaseEnemy : public ACharacter
+class SOULSLIKEAI_API ABaseEnemy : public ACharacter, public IGenericTeamAgentInterface
 {
 	GENERATED_BODY()
 
@@ -22,6 +23,9 @@ public:
 	
 	/** The data asset this enemy is built from. Null if none is assigned. */
 	const UBaseEnemyData* GetEnemyData() const {return EnemyData;}
+	
+	/** The enemies' perception team. Noises this enemy makes carry it, so no enemy, itself included, reports them.*/
+	virtual FGenericTeamId GetGenericTeamId() const override;
 
 protected:
 	// Called when the game starts or when spawned
