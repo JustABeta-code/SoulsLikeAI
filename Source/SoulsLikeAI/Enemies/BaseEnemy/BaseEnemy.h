@@ -24,7 +24,7 @@ public:
 	/** The data asset this enemy is built from. Null if none is assigned. */
 	const UBaseEnemyData* GetEnemyData() const {return EnemyData;}
 	
-	/** The enemies' perception team. Noises this enemy makes carry it, so no enemy, itself included, reports them.*/
+	/** The enemies' perception team. Noises this enemy makes carry it, so no enemy, itself included, reports them. */
 	virtual FGenericTeamId GetGenericTeamId() const override;
 
 protected:
