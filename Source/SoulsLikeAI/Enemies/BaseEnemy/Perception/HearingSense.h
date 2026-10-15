@@ -18,7 +18,7 @@ public:
 protected:
 	virtual UAISenseConfig* NewSenseConfig(UObject& Outer) const override;
 	
-	/** Distance at which a noise of loudness 1 is heard; a noise's loudness multiplies it. */
-	UPROPERTY(EditAnywhere, Category = "Sense", meta = (ClampMin = "0.0", UIMin = "0.0"))
+	/** Farthest distance at which this enemy hears a noise of loudness 1; the noise's loudness multiplies it. A noise's Max Range can shorten this distance, never extend it. */
+	UPROPERTY(EditAnywhere, Category = "Sense", meta = (ClampMin = "0.0", UIMin = "0.0", Units = "Centimeters"))
 	float HearingRange = 1000.f;
 };

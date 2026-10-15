@@ -22,8 +22,8 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Noise", meta = (ClampMin = "0.0", UIMin = "0.0"))
 	float Loudness = 1.f;
 	
-	/** If above 0, also caps the distance at max range × loudness, whatever the listener's hearing range. 0 means no cap. */
-	UPROPERTY(EditAnywhere, Category = "Noise", meta = (ClampMin = "0.0", UIMin = "0.0"))
+	/** The flat distance at which this noise is heard, the same for every enemy; 0 means Loudness decides. */
+	UPROPERTY(EditAnywhere, Category = "Noise", meta = (ClampMin = "0.0", UIMin = "0.0", Units = "Centimeters"))
 	float MaxRange = 0.f;
 	
 };
