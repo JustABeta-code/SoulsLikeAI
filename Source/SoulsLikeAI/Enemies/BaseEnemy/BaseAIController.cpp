@@ -7,6 +7,7 @@
 #include "SoulsLikeAITeams.h"
 
 #include "Perception/AISenseConfig.h"
+#include "Perception/AISense_Sight.h"
 #include "Perception/AIPerceptionSystem.h"
 #include "Perception/AIPerceptionComponent.h"
 
@@ -36,7 +37,7 @@ void ABaseAIController::SetNewState(ECombatState NewState)
 		return;
 	}
 	
-	const ECombatState& OldState = CombatState;
+	const ECombatState OldState = CombatState;
 	CombatState = NewState;
 	
 	const UEnum* StateEnum = StaticEnum<ECombatState>();
@@ -111,6 +112,18 @@ void ABaseAIController::SetupPerception()
 
 void ABaseAIController::HandleTargetPerceptionInfoUpdated(const FActorPerceptionUpdateInfo& UpdateInfo)
 {
+	const AActor* Target = UpdateInfo.Target.Get();
 	const FAIStimulus& Stimulus = UpdateInfo.Stimulus;
 	UE_LOG(LogEnemyAI, Verbose, TEXT("%s: %s %s (%s)"), *GetName(), Stimulus.WasSuccessfullySensed() ? TEXT("sensed") : TEXT("lost"), *GetNameSafe(UpdateInfo.Target.Get()), *GetNameSafe(UAIPerceptionSystem::GetSenseClassForStimulus(this, Stimulus).Get()));
+	
+	if (Target == nullptr)
+	{
+		return;
+	}
+	
+	if (Stimulus.Type == UAISense::GetSenseID<UAISense_Sight>())
+	{
+		SetNewState(ECombatState::Combat);
+	}
+	
 }
