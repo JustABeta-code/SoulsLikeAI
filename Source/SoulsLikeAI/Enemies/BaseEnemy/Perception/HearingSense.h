@@ -6,7 +6,8 @@
 #include "BaseSense.h"
 #include "HearingSense.generated.h"
 
-/** Hearing entry for an enemy's Senses list. Hears hostile noises only (a noise with no team counts as hostile); that rule is in code, not data. */
+/** Hearing entry for an enemy's Senses list. Hears hostile noises only (a noise with no team counts as hostile);
+ * that rule is in code, not data. */
 UCLASS(meta = (DisplayName = "Hearing"))
 class SOULSLIKEAI_API UHearingSense : public UBaseSense
 {

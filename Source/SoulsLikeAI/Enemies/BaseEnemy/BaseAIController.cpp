@@ -14,14 +14,35 @@
 #include "Enemies/BaseEnemy/BaseEnemyData.h"
 #include "Enemies/BaseEnemy/Perception/BaseSense.h"
 
+#include "VisualLogger/VisualLogger.h"
+
 ABaseAIController::ABaseAIController(){
-	// Set before perception registers: SetGenericTeamId doesn't notify it, and its listener copies the team only when it registers or updates.
+	/** Set before perception registers: SetGenericTeamId doesn't notify it,
+	 * and its listener copies the team only when it registers or updates. */
 	AAIController::SetGenericTeamId(SoulsLikeTeams::Enemies);
 	
 	UAIPerceptionComponent* Perception = CreateDefaultSubobject<UAIPerceptionComponent>("AIPerception");
 	// Registered in SetupPerception, once the pawn's data is known.
 	Perception->bAutoRegister = false;
 	SetPerceptionComponent(*Perception);
+}
+
+void ABaseAIController::SetNewState(ECombatState NewState)
+{
+	// Callers may report the current state again (every footstep heard while investigating),
+	// so only a change counts.
+	if (NewState == CombatState)
+	{
+		return;
+	}
+	
+	const ECombatState& OldState = CombatState;
+	CombatState = NewState;
+	
+	const UEnum* StateEnum = StaticEnum<ECombatState>();
+	UE_VLOG_UELOG(this, LogEnemyAI, Log, TEXT("%s: %s -> %s"), *GetName(),
+		   *StateEnum->GetNameStringByValue(static_cast<int64>(OldState)),
+		   *StateEnum->GetNameStringByValue(static_cast<int64>(NewState)));
 }
 
 void ABaseAIController::OnPossess(class APawn* InPawn)

@@ -9,13 +9,12 @@
 UENUM()
 enum class ECombatState : uint8
 {
-	/** Idle: Nothing known, standing still, the starting state. */
-	/** Patrol: Nothing known, following its route. */
-	/** Investigate: Something heard, or the target lost, checking a location. */
-	/** Combat: The target is known, fighting it. */
-	
+	/** Nothing known, standing still: the starting state. */
 	Idle,
+	/** Nothing known: following its route. */
 	Patrol,
+	/** Something heard, or the target lost: checking a location. */
 	Investigate,
+	/** The target is known: fighting it. */
 	Combat
 };

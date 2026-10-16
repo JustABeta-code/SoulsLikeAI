@@ -18,11 +18,13 @@ public:
 	virtual void Notify(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation, const FAnimNotifyEventReference& EventReference) override;
 	
 protected:
-	/** Scales the listener's hearing range: the noise is heard within hearing range × loudness. */
+	/** Multiplies both each enemy's hearing range and Max Range; 1 leaves both unchanged. */
 	UPROPERTY(EditAnywhere, Category = "Noise", meta = (ClampMin = "0.0", UIMin = "0.0"))
 	float Loudness = 1.f;
 	
-	/** The flat distance at which this noise is heard, the same for every enemy; 0 means Loudness decides. */
+	/** Distance at which this noise is heard, times Loudness;
+	 * an enemy with a shorter hearing range hears it only within that.
+	 * 0 means each enemy's hearing range, times Loudness, decides. */
 	UPROPERTY(EditAnywhere, Category = "Noise", meta = (ClampMin = "0.0", UIMin = "0.0", Units = "Centimeters"))
 	float MaxRange = 0.f;
 	
