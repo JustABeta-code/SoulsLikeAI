@@ -37,6 +37,20 @@ private:
 	UFUNCTION()
 	void HandleTargetPerceptionInfoUpdated(const FActorPerceptionUpdateInfo& UpdateInfo);
 	
+	
+	/** Reacts to a sight update of a target that still exists. */
+	void HandleSight(const AActor& Target, const FAIStimulus& Stimulus);
+
+	/** Reacts to a hearing update of a target that still exists. */
+	void HandleHearing(const AActor& Target, const FAIStimulus& Stimulus);
+	
+	
 	/** Changed only through SetNewState. */
 	ECombatState CombatState = ECombatState::Idle;
+	
+	/** Sets where the enemy searches. The only writer of SearchLocation. */
+	void SetSearchLocation(const FVector& Location);
+	
+	/** Where the enemy searches while investigating. Changed only through SetSearchLocation. */
+	FVector SearchLocation = FAISystem::InvalidLocation;
 };

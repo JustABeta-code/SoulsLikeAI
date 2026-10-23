@@ -8,6 +8,7 @@
 
 #include "Perception/AISenseConfig.h"
 #include "Perception/AISense_Sight.h"
+#include "Perception/AISense_Hearing.h"
 #include "Perception/AIPerceptionSystem.h"
 #include "Perception/AIPerceptionComponent.h"
 
@@ -121,9 +122,45 @@ void ABaseAIController::HandleTargetPerceptionInfoUpdated(const FActorPerception
 		return;
 	}
 	
+	// Sense IDs are assigned when a sense first registers, so they can't be switch cases.
 	if (Stimulus.Type == UAISense::GetSenseID<UAISense_Sight>())
 	{
-		SetNewState(ECombatState::Combat);
+		HandleSight(*Target, Stimulus);
+	}
+	else if (Stimulus.Type == UAISense::GetSenseID<UAISense_Hearing>())
+	{
+		HandleHearing(*Target, Stimulus);
 	}
 	
+}
+
+void ABaseAIController::HandleSight(const AActor& Target, const FAIStimulus& Stimulus)
+{
+	if (Stimulus.WasSuccessfullySensed())
+	{
+		// Seeing a hostile target starts combat, whatever the enemy was doing.
+		SetNewState(ECombatState::Combat);
+	}
+}
+
+void ABaseAIController::HandleHearing(const AActor& Target, const FAIStimulus& Stimulus)
+{
+	if (Stimulus.WasSuccessfullySensed())
+	{
+		// A hostile noise starts a search there, or moves the current one; in combat, the enemy keeps fighting.
+		if (CombatState != ECombatState::Combat)
+		{
+			SetSearchLocation(Stimulus.StimulusLocation);
+			SetNewState(ECombatState::Investigate);
+		}
+	}
+}
+
+void ABaseAIController::SetSearchLocation(const FVector& Location)
+{
+	SearchLocation = Location;
+	
+	// Verbose: while investigating, every footstep heard moves the search.
+	UE_LOG(LogEnemyAI, Verbose, TEXT("%s: search location %s"), *GetName(), *Location.ToString());
+	UE_VLOG_LOCATION(this, LogEnemyAI, Log, Location, 30, FColor::Yellow, TEXT("Search location"));
 }
