@@ -39,10 +39,10 @@ private:
 	
 	
 	/** Reacts to a sight update of a target that still exists. */
-	void HandleSight(const AActor& Target, const FAIStimulus& Stimulus);
+	void HandleSight(AActor& Target, const FAIStimulus& Stimulus);
 
 	/** Reacts to a hearing update of a target that still exists. */
-	void HandleHearing(const AActor& Target, const FAIStimulus& Stimulus);
+	void HandleHearing(AActor& Target, const FAIStimulus& Stimulus);
 	
 	
 	/** Changed only through SetNewState. */
@@ -53,4 +53,10 @@ private:
 	
 	/** Where the enemy searches while investigating. Changed only through SetSearchLocation. */
 	FVector SearchLocation = FAISystem::InvalidLocation;
+	
+	/** Sets the hostile actor the enemy is fighting; null clears it. The only writer of CombatTarget. */
+	void SetCombatTarget(AActor* NewTarget);
+	
+	/** The hostile actor the enemy is fighting; reads null once that actor is destroyed. Changed only through SetCombatTarget. */
+	TWeakObjectPtr<AActor> CombatTarget;
 };

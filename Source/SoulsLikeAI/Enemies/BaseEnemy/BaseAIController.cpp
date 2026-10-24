@@ -113,7 +113,7 @@ void ABaseAIController::SetupPerception()
 
 void ABaseAIController::HandleTargetPerceptionInfoUpdated(const FActorPerceptionUpdateInfo& UpdateInfo)
 {
-	const AActor* Target = UpdateInfo.Target.Get();
+	AActor* Target = UpdateInfo.Target.Get();
 	const FAIStimulus& Stimulus = UpdateInfo.Stimulus;
 	UE_LOG(LogEnemyAI, Verbose, TEXT("%s: %s %s (%s)"), *GetName(), Stimulus.WasSuccessfullySensed() ? TEXT("sensed") : TEXT("lost"), *GetNameSafe(UpdateInfo.Target.Get()), *GetNameSafe(UAIPerceptionSystem::GetSenseClassForStimulus(this, Stimulus).Get()));
 	
@@ -134,16 +134,17 @@ void ABaseAIController::HandleTargetPerceptionInfoUpdated(const FActorPerception
 	
 }
 
-void ABaseAIController::HandleSight(const AActor& Target, const FAIStimulus& Stimulus)
+void ABaseAIController::HandleSight(AActor& Target, const FAIStimulus& Stimulus)
 {
 	if (Stimulus.WasSuccessfullySensed())
 	{
 		// Seeing a hostile target starts combat, whatever the enemy was doing.
+		SetCombatTarget(&Target);
 		SetNewState(ECombatState::Combat);
 	}
 }
 
-void ABaseAIController::HandleHearing(const AActor& Target, const FAIStimulus& Stimulus)
+void ABaseAIController::HandleHearing(AActor& Target, const FAIStimulus& Stimulus)
 {
 	if (Stimulus.WasSuccessfullySensed())
 	{
@@ -163,4 +164,16 @@ void ABaseAIController::SetSearchLocation(const FVector& Location)
 	// Verbose: while investigating, every footstep heard moves the search.
 	UE_LOG(LogEnemyAI, Verbose, TEXT("%s: search location %s"), *GetName(), *Location.ToString());
 	UE_VLOG_LOCATION(this, LogEnemyAI, Log, Location, 30, FColor::Yellow, TEXT("Search location"));
+}
+
+void ABaseAIController::SetCombatTarget(AActor* NewTarget)
+{
+	if (NewTarget == CombatTarget.Get())
+	{
+		return;
+	}
+	
+	CombatTarget = NewTarget;
+	
+	UE_VLOG_UELOG(this, LogEnemyAI, Log, TEXT("%s: combat target %s"), *GetName(), *GetNameSafe(NewTarget));
 }
